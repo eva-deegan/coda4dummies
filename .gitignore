@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+.DS_Store
+coda4dummies.Rproj
+
+# Suppress folders
+data_test/
+
