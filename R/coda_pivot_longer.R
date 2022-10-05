@@ -70,14 +70,14 @@ coda_pivot_longer <- function(var_list, coda_sum, colnams = NULL){
   # pivot_longer ci2.5
   temp <- c()
 
-  col_list <- column_names[grep("2.5",column_names)]
+  col_list <- unlist(column_names[grep("2.5",column_names)])
   for( i in c(1:length(var_list))){
     for( j in c(1:nrow(df))){
 
       # if the var name in the df row matches i
       # then assign the correct ci value to temp
       if(grepl(var_list[i],df$var[j])){
-        temp2 <- select(df, ends_with(colnams[i]))[j,]
+        temp2 <- select(df, ends_with(col_list[i]))[j,]
         temp[[j]] <- as.numeric(temp2)
       }
 
@@ -92,7 +92,7 @@ coda_pivot_longer <- function(var_list, coda_sum, colnams = NULL){
   if(!is.null(colnams)){
     var_list <- colnams
   }
-  col_list <- column_names[grep("97.5",column_names)]
+  col_list <- unlist(column_names[grep("97.5",column_names)])
   for( i in c(1:length(var_list))){
     for( j in c(1:nrow(df_longer))){
 
