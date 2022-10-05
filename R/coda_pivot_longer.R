@@ -60,14 +60,16 @@ coda_pivot_longer <- function(var_list, coda_sum, colnams = NULL){
   suppressMessages(df <- dplyr::bind_cols(voi_list))
   colnames(df) <- column_names
 
+  # pivot longer posteriors
+  if(!is.null(colnams)){
+    var_list <- colnams
+  }
   df <- df %>%
     pivot_longer(cols = c(var_list), names_to = "var")
 
   # pivot_longer ci2.5
   temp <- c()
-  if(!is.null(colnams)){
-    var_list <- colnams
-  }
+
   col_list <- column_names[grep("2.5",column_names)]
   for( i in c(1:length(var_list))){
     for( j in c(1:nrow(df))){
