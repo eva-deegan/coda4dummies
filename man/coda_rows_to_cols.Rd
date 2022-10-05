@@ -4,7 +4,7 @@
 \alias{coda_rows_to_cols}
 \title{Convert coda rows to data frame columns}
 \usage{
-coda_rows_to_cols(var_list, coda_sum)
+coda_rows_to_cols(var_list, coda_sum, colnams = NULL)
 }
 \value{
 A data frame of columns for posterior means, 2.5 \%, and 97.5 CI quantiles for each variable
