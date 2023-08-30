@@ -10,6 +10,10 @@
 #' @export
 findlowdev <- function(codaobj, to_keep, paramlist, type, just_chain_number=F){
 
+  if(length(codaobj)>3){
+    codaobj <- codaobj$samples
+  }
+
   # Create a "not in" function using negate from the purrr package
   `%nin%` <- purrr::negate(`%in%`)
 

@@ -20,8 +20,13 @@ dumsum <- function(jagsobj, dim, type){
 
 
   if(type == "jagsUI"){
+
+    if(length(codaobj)<3){
+      print("This is not a jagsUI object.")
+    }
+
     jagsui <- jagsobj
-    jm_coda <- jagsobj$samples # convert to coda form to work with postjags functions
+    jm_coda <- jagsui$samples # convert to coda form to work with postjags functions
 
     # Organize the coda object as a dataframe
     df_sum <- coda.fast(jm_coda)

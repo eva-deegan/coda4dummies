@@ -14,4 +14,3 @@ Imports:
     dplyr,
     purrr,
     utils
-Remotes: fellmk/PostJAGS/postjags
