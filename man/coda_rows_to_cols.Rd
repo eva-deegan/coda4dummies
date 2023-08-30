@@ -10,7 +10,7 @@ coda_rows_to_cols(var_list, coda_sum, colnams = NULL)
 A data frame of columns for posterior means, 2.5 \%, and 97.5 CI quantiles for each variable
 }
 \description{
-Function to extract posterior means, and 2.5 and 97.5 CI quantiles from jags coda output.
+This is a function that only works sometimes. Use dumsum with pivot_wider instead. Function to extract posterior means, and 2.5 and 97.5 CI quantiles from jags coda output.
 It takes a list of variable names and the coda summary.
 All variables in the list MUST have the same length posterior outputs.
 }

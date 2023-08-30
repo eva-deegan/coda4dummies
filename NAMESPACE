@@ -2,3 +2,8 @@
 
 export(coda_pivot_longer)
 export(coda_rows_to_cols)
+export(dateconnect)
+export(dumsum)
+export(findlowdev)
+export(get_remove_index)
+export(keepvars)

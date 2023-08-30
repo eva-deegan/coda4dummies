@@ -13,6 +13,7 @@ library("usethis")
 # Require external dependencies ----------------------------------------------
 use_package("dplyr", "Imports")
 use_package("utils", "Imports")
+use_package("purrr", "Imports")
 
 # Run this to update documentation
 devtools::document()

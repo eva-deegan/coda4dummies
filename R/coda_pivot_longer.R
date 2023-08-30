@@ -1,7 +1,7 @@
 #' Convert coda summary output to pivot_longer style data frame columns
 #' One column for posterior values, one column for variable names, one column for 2.5 ci, one column for 97.5 ci
 #'
-#' Function to extract posterior means, and 2.5 and 97.5 CI quantiles from jags coda output.
+#' This is a function that only works sometimes. Use dumsum instead.Function to extract posterior means, and 2.5 and 97.5 CI quantiles from jags coda output.
 #' It takes a list of variable names and the coda summary.
 #' All variables in the list MUST have the same length posterior outputs.
 #' Returns tidyverse pivot_longer format, best for distribution plotting and facet_grids

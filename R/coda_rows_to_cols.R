@@ -1,6 +1,6 @@
 #' Convert coda rows to data frame columns
 #'
-#' Function to extract posterior means, and 2.5 and 97.5 CI quantiles from jags coda output.
+#' This is a function that only works sometimes. Use dumsum with pivot_wider instead. Function to extract posterior means, and 2.5 and 97.5 CI quantiles from jags coda output.
 #' It takes a list of variable names and the coda summary.
 #' All variables in the list MUST have the same length posterior outputs.
 #'
