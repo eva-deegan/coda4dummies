@@ -9,6 +9,7 @@ library("usethis")
 #use_mit_license("Emma Reich")
 
 # Make a Vignette ----------------------------------------------
+#use_vignette("how-to-coda4dummies", "coda4dummies")
 
 # Require external dependencies ----------------------------------------------
 use_package("dplyr", "Imports")

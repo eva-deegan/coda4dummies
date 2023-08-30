@@ -9,3 +9,4 @@ coda4dummies.Rproj
 # Suppress folders
 tests/
 
+inst/doc

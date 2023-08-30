@@ -1,0 +1,22 @@
+---
+title: "coda4dummies"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{coda4dummies}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(coda4dummies)
+```
+
+TBD
+
