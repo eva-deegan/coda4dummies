@@ -7,5 +7,5 @@
 coda4dummies.Rproj
 
 # Suppress folders
-data_test/
+tests/
 

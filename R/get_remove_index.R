@@ -11,6 +11,9 @@
 #' @export
 keepvars <- function(codaobj, to_keep, paramlist, type){
 
+  # Create a "not in" function using negate from the purrr package
+  `%nin%` <- purrr::negate(`%in%`)
+
   remove_vars <- get_remove_index(to_keep, paramlist, type)
 
   newinits <- initfind(codaobj, OpenBUGS = FALSE)
@@ -31,6 +34,9 @@ keepvars <- function(codaobj, to_keep, paramlist, type){
 #' @return A data frame of columns for posterior means, 2.5 %, and 97.5 CI quantiles for each variable
 #' @export
 get_remove_index <- function(to_keep, list, type){
+
+  # Create a "not in" function using negate from the purrr package
+  `%nin%` <- purrr::negate(`%in%`)
 
   if(type %nin% c("rjags", "jagUI")){
     paste("Please indicate whether this is a rjags or jagsUI samples object")
