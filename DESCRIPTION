@@ -1,5 +1,5 @@
 Package: coda4dummies
-Title: What the Package Does (One Line, Title Case)
+Title: Functions to Summarize Inconvenient Rjags or Jagsui Coda Cutputs.
 Version: 0.0.0.9000
 Authors@R: 
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
@@ -13,6 +13,8 @@ RoxygenNote: 7.1.1
 Imports: 
     dplyr,
     purrr,
+    tibble,
+    tidyr,
     utils
 Suggests: 
     knitr,

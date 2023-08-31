@@ -2,21 +2,16 @@
 % Please edit documentation in R/findlowdev.R
 \name{findlowdev}
 \alias{findlowdev}
-\title{Save initials of chain with the lowest deviance based on last model run.}
+\title{Find the chain number with the lowest deviance based on last model run.}
 \usage{
-findlowdev(codaobj, to_keep, paramlist, type, just_chain_number = F)
+findlowdev(codaobj)
 }
 \arguments{
-\item{to_keep}{string of variable names}
-
-\item{paramlist}{list of all parameters tracked. If type is jagsUI, this needs to be in the same order you fed the parameter names into the model}
-
-\item{type}{rjags or jagsUI. Indicates what object type codaobj is}
+\item{codaobj}{the coda object}
 }
 \value{
-saved initials of chain with lowest deviance for next run OR number of lowest deviance chain if just_chain_number=T
+number of lowest deviance chain
 }
 \description{
-Function to get new initials based on the chain with the lowest deviance from last run.
-To be used with get_remove_index.
+Function to the chain number with the lowest deviance.
 }

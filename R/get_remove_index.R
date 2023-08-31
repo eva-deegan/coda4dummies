@@ -11,7 +11,7 @@
 #' @export
 keepvars <- function(codaobj, to_keep, paramlist, type){
 
-  if(length(codaobj)>3){
+  if(!is.null(codaobj$samples)){
     codaobj <- codaobj$samples
   }
 
@@ -23,6 +23,11 @@ keepvars <- function(codaobj, to_keep, paramlist, type){
   newinits <- initfind(codaobj, OpenBUGS = FALSE)
   saved_state <- removevars(initsin = newinits,
                             variables = remove_vars)
+
+  initlow <- findlowdev(codaobj) # find the lowest deviance chain
+  saved_state[[3]] <- initlow
+  names(saved_state[[3]]) <- "lowdevchain"
+
   return(saved_state)
 
 }
@@ -39,7 +44,7 @@ keepvars <- function(codaobj, to_keep, paramlist, type){
 #' @export
 get_remove_index <- function(to_keep, list, type){
 
-  if(length(codaobj)>3){
+  if(!is.null(codaobj$samples)){
     codaobj <- codaobj$samples
   }
 

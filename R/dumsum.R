@@ -5,11 +5,10 @@
 #' All variables in the list MUST have the same length posterior outputs.
 #'
 #' @param jagsobj jagsUI or rjags object
-#' @param dim max dimension of parameters (between 1-2)
 #' @param type rjags or jagsUI. Indicates what object type jagsobj is
 #' @return A data frame of columns for posterior means, 2.5 %, and 97.5 CI quantiles for each variable
 #' @export
-dumsum <- function(jagsobj, dim, type){
+dumsum <- function(jagsobj, type){
 
   # Create a "not in" function using negate from the purrr package
   `%nin%` <- purrr::negate(`%in%`)
@@ -21,8 +20,8 @@ dumsum <- function(jagsobj, dim, type){
 
   if(type == "jagsUI"){
 
-    if(length(codaobj)<3){
-      print("This is not a jagsUI object.")
+    if(is.null(codaobj$samples)){
+      print("This is not a full jagsUI object. If this is just the 'samples' from jagsUI, set 'type' to rjags.")
     }
 
     jagsui <- jagsobj
@@ -30,19 +29,39 @@ dumsum <- function(jagsobj, dim, type){
 
     # Organize the coda object as a dataframe
     df_sum <- coda.fast(jm_coda)
-    df_sum <- rownames_to_column(df_sum, "var")
+    df_sum <- tibble::rownames_to_column(df_sum, "var")
     df_sum <- df_sum %>% # make index column
       mutate(ID = sub('.*\\[(.*)\\]', '\\1', df_sum$var))
-    df_sum <- df_sum %>% # separate index column into 1st and 2nd dimension
-      mutate(ID1 = sub('(.*)\\,.*', '\\1', df_sum$ID),
-             ID2 = sub('.*\\,(.*)', '\\1', df_sum$ID))
-    df_sum$ID2 <- ifelse(!grepl(',', df_sum$ID), NA, df_sum$ID2) # get rid of ID2 if there's no 2nd dimension
-    df_sum$ID1 <- ifelse(grepl('[[:alpha:]]', df_sum$ID), 1, df_sum$ID1) # make ID1=1 if there is only 1 instance
+    df_sum$ID <- ifelse(grepl('[[:alpha:]]', df_sum$ID), 1, df_sum$ID) # make ID=1 if there is only 1 instance
+
+    # make a lists of list of indices
+    IDlist <- strsplit(df_sum$ID, ",") #temp
+
+    # get number of dims in ID
+    counter <- 1
+    for(i in 1:length(IDlist)){
+      counter <- ifelse(length(IDlist[[i]])>counter, length(IDlist[[i]]), counter)
+    }
+
+    # create a character vector of column names based on max dim
+    new_columns <- list()
+    for(i in 1:counter){
+      new_columns[[i]] <- paste("ID",i, sep="")
+    }
+    new_columns <- as.character(new_columns)
+
+    # for each dimension, create a new column with the correct ID
+    df_sum <- df_sum %>%
+      tidyr::separate(ID,new_columns,sep=",")
+
     df_sum <- df_sum %>%
       mutate(var = sub('(.*)\\[.*', '\\1', df_sum$var)) # get rid of numbers in var col
+
     df_mod <- df_sum %>%
-      select("var","ID1","ID2","mean","median","pc2.5","pc97.5") %>% #reorder columns, drop ID
+      select("var",starts_with("ID"),"mean","median","pc2.5","pc97.5") %>% #reorder columns, drop ID
       mutate(overlap0 = do.call(c, jagsui$overlap0), gel = do.call(c, jagsui$Rhat))
+
+    df_mod[,2:(counter+1)] <- lapply(2:(counter+1), function(x) as.numeric(df_mod[[x]])) # make appropraite columns numeric
 
     return(df_mod)
   }
@@ -52,19 +71,39 @@ dumsum <- function(jagsobj, dim, type){
 
     # Organize the coda object as a dataframe
     df_sum <- coda.fast(jm_coda)
-    df_sum <- rownames_to_column(df_sum, "var")
+    df_sum <- tibble::rownames_to_column(df_sum, "var")
     df_sum <- df_sum %>% # make index column
       mutate(ID = sub('.*\\[(.*)\\]', '\\1', df_sum$var))
-    df_sum <- df_sum %>% # separate index column into 1st and 2nd dimension
-      mutate(ID1 = sub('(.*)\\,.*', '\\1', df_sum$ID),
-             ID2 = sub('.*\\,(.*)', '\\1', df_sum$ID))
-    df_sum$ID2 <- ifelse(!grepl(',', df_sum$ID), NA, df_sum$ID2) # get rid of ID2 if there's no 2nd dimension
-    df_sum$ID1 <- ifelse(grepl('[[:alpha:]]', df_sum$ID), 1, df_sum$ID1) # make ID1=1 if there is only 1 instance
+    df_sum$ID <- ifelse(grepl('[[:alpha:]]', df_sum$ID), 1, df_sum$ID) # make ID=1 if there is only 1 instance
+
+    # make a lists of list of indices
+    IDlist <- strsplit(df_sum$ID, ",") #temp
+
+    # get number of dims in ID
+    counter <- 1
+    for(i in 1:length(IDlist)){
+      counter <- ifelse(length(IDlist[[i]])>counter, length(IDlist[[i]]), counter)
+    }
+
+    # create a character vector of column names based on max dim
+    new_columns <- list()
+    for(i in 1:counter){
+      new_columns[[i]] <- paste("ID",i, sep="")
+    }
+    new_columns <- as.character(new_columns)
+
+    # for each dimension, create a new column with the correct ID
+    df_sum <- df_sum %>%
+      tidyr::separate(ID,new_columns,sep=",")
+
     df_sum <- df_sum %>%
       mutate(var = sub('(.*)\\[.*', '\\1', df_sum$var)) # get rid of numbers in var col
+
     df_mod <- df_sum %>%
-      select("var","ID1","ID2","mean","median","pc2.5","pc97.5") #%>% #reorder columns, drop ID
+      select("var",starts_with("ID"),"mean","median","pc2.5","pc97.5") #%>% #reorder columns, drop ID
     #mutate(overlap0 = do.call(c, jagsui$overlap0), gel = do.call(c, jagsui$Rhat))
+
+    df_mod[,2:(counter+1)] <- lapply(2:(counter+1), function(x) as.numeric(df_mod[[x]])) # make appropraite columns numeric
 
     return(df_mod)
   }

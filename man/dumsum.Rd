@@ -4,12 +4,10 @@
 \alias{dumsum}
 \title{Organize jagsUI output as a dataframe}
 \usage{
-dumsum(jagsobj, dim, type)
+dumsum(jagsobj, type)
 }
 \arguments{
 \item{jagsobj}{jagsUI or rjags object}
-
-\item{dim}{max dimension of parameters (between 1-2)}
 
 \item{type}{rjags or jagsUI. Indicates what object type jagsobj is}
 }

@@ -18,6 +18,8 @@ devtools::load_all()
 #use_package("dplyr", "Imports")
 #use_package("utils", "Imports")
 #use_package("purrr", "Imports")
+#use_package("tibble", "Imports")
+#use_package("tidyr", "Imports")
 
 
 # Run this to update documentation
