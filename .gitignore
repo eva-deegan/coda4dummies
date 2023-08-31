@@ -9,6 +9,8 @@ coda4dummies.Rproj
 # Suppress folders
 tests/
 
+*.rmd
+
 inst/doc
 doc
 Meta
