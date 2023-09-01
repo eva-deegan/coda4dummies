@@ -1,6 +1,6 @@
 #' Find the chain number with the lowest deviance based on last model run.
 #'
-#' Function to the chain number with the lowest deviance.
+#' Function to find the chain number with the lowest deviance.
 #'
 #' @param codaobj the coda object
 #' @return number of lowest deviance chain

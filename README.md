@@ -1,4 +1,4 @@
-# coda4dummies
+# The 'coda4dummies' R package
 
 Functions to summarize inconvenient rjags or jagsUI coda outputs. Especially helpful when your coda summary contains timeseries variables of different lengths (e.g., when calculating posteriors for variables at daily, weekly, and seasonal timescales within the same model framework). The main function of this package is to streamline the model fitting/ output summarizing process with the least amount of thinking possible. Many functions included here are wrapper functions around functions from the postjags package developed by Michael Fell (https://github.com/fellmk/PostJAGS).
 
@@ -26,17 +26,18 @@ Note that you will have to load postjags with library(postjags) everytime you us
 
 ## Example
 
+### Create a tidyverse-friendly dataframe
 ```{r}
-## Organize the coda object as a dataframe
+# Organize the coda object as a dataframe
 df_model <- dumsum(jagsobj = jagsui, type = "jagsUI")
 
 # Connect dates to the dataframe by variable
   df_model <- dateconnect(dfobj = df_model, datevect = DOY, datename = "DOY", identifier = "ID2", varlist = c("dYdX"))
   df_model <- dateconnect(dfobj = df_model, datevect = YIN$TIMESTAMP, datename = "TIMESTAMP", identifier = NULL, varlist = c("WUE.pred", "T.ratio", "T.pred", "ET.pred"))
+```
 
-
-## Save initials for future runs
-
+### Save initials for future runs
+```{r}
 # inits to save
 init_names = names(initslist[[1]]) # get the initial names from the list of initials you used to start the model
 
@@ -47,20 +48,15 @@ init_names = names(initslist[[1]]) # get the initial names from the list of init
 saved_state <- keepvars(codaobj = jagsui, to_keep = init_names, paramlist = params, type="jagsUI")
 
 save(saved_state, file = initfilename) # saving the saved_state locally
+```
 
-## Restarting the model with initials based on the lowest deviance chain
+### Restarting the model with initials based on the lowest deviance chain
+```{r}
 
 load(initfilename) # loading the saved_state
 
-initlow <- saved_state[[3]] # initlow is just the lowest dev chain number
-
-# take chain with lowest deviance, and make remaining chains vary around it
-saved_state[[2]][[1]] = saved_state[[2]][[initlow]] # Best (low dev) initials for chain 1
-saved_state[[2]][[2]] = lapply(saved_state[[2]][[initlow]],"*",10)
-saved_state[[2]][[3]] = lapply(saved_state[[2]][[initlow]],"/",10)
-
+# Create new initials based on the chain with the lowest deviance
+new_saved_state <- lowdevrestart(saved_state = saved_state, vary_by = 10)
 ```
-
-
 
 
