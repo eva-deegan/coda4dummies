@@ -13,5 +13,5 @@ findlowdev(codaobj)
 number of lowest deviance chain
 }
 \description{
-Function to the chain number with the lowest deviance.
+Function to find the chain number with the lowest deviance.
 }

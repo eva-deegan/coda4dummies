@@ -44,10 +44,6 @@ keepvars <- function(codaobj, to_keep, paramlist, type){
 #' @export
 get_remove_index <- function(to_keep, list, type){
 
-  if(!is.null(codaobj$samples)){
-    codaobj <- codaobj$samples
-  }
-
   # Create a "not in" function using negate from the purrr package
   `%nin%` <- purrr::negate(`%in%`)
 

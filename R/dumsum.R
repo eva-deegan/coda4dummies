@@ -6,9 +6,10 @@
 #'
 #' @param jagsobj jagsUI or rjags object
 #' @param type rjags or jagsUI. Indicates what object type jagsobj is
+#' @param col.names Optional. Takes a list of column names you want your ID columns labeled as. Default is ID1, ID2, etc.
 #' @return A data frame of columns for posterior means, 2.5 %, and 97.5 CI quantiles for each variable
 #' @export
-dumsum <- function(jagsobj, type){
+dumsum <- function(jagsobj, type, col.names = NULL){
 
   # Create a "not in" function using negate from the purrr package
   `%nin%` <- purrr::negate(`%in%`)
@@ -66,6 +67,10 @@ dumsum <- function(jagsobj, type){
 
     df_mod[,2:(counter+1)] <- lapply(2:(counter+1), function(x) as.numeric(df_mod[[x]])) # make appropraite columns numeric
 
+    if(!is.null(col.names)){
+      colnames(df_mod)[2:(counter+1)] <- col.names
+    }
+
     return(df_mod)
   }
 
@@ -109,6 +114,10 @@ dumsum <- function(jagsobj, type){
     #mutate(overlap0 = do.call(c, jagsui$overlap0), gel = do.call(c, jagsui$Rhat))
 
     df_mod[,2:(counter+1)] <- lapply(2:(counter+1), function(x) as.numeric(df_mod[[x]])) # make appropraite columns numeric
+
+    if(!is.null(col.names)){
+      colnames(df_mod)[2:(counter+1)] <- col.names
+    }
 
     return(df_mod)
   }

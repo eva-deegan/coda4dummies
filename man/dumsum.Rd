@@ -4,12 +4,14 @@
 \alias{dumsum}
 \title{Organize jagsUI output as a dataframe}
 \usage{
-dumsum(jagsobj, type)
+dumsum(jagsobj, type, col.names = NULL)
 }
 \arguments{
 \item{jagsobj}{jagsUI or rjags object}
 
 \item{type}{rjags or jagsUI. Indicates what object type jagsobj is}
+
+\item{col.names}{Optional. Takes a list of column names you want your ID columns labeled as. Default is ID1, ID2, etc.}
 }
 \value{
 A data frame of columns for posterior means, 2.5 \%, and 97.5 CI quantiles for each variable
