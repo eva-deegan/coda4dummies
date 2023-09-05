@@ -13,14 +13,14 @@ dumsum <- function(jagsobj, type){
   # Create a "not in" function using negate from the purrr package
   `%nin%` <- purrr::negate(`%in%`)
 
-  if(type %nin% c("rjags", "jagUI")){
+  if(type %nin% c("rjags", "jagsUI")){
     paste("Please indicate whether this is a rjags or jagsUI samples object")
   }
 
 
   if(type == "jagsUI"){
 
-    if(is.null(codaobj$samples)){
+    if(is.null(jagsobj$samples)){
       print("This is not a full jagsUI object. If this is just the 'samples' from jagsUI, set 'type' to rjags.")
     }
 
@@ -57,6 +57,9 @@ dumsum <- function(jagsobj, type){
     df_sum <- df_sum %>%
       mutate(var = sub('(.*)\\[.*', '\\1', df_sum$var)) # get rid of numbers in var col
 
+    if(exists("c")){ # remove c if overwritten
+      rm(c)
+    }
     df_mod <- df_sum %>%
       select("var",starts_with("ID"),"mean","median","pc2.5","pc97.5") %>% #reorder columns, drop ID
       mutate(overlap0 = do.call(c, jagsui$overlap0), gel = do.call(c, jagsui$Rhat))
@@ -93,8 +96,10 @@ dumsum <- function(jagsobj, type){
     new_columns <- as.character(new_columns)
 
     # for each dimension, create a new column with the correct ID
-    df_sum <- df_sum %>%
+    suppressWarnings({
+      df_sum <- df_sum %>%
       tidyr::separate(ID,new_columns,sep=",")
+    })
 
     df_sum <- df_sum %>%
       mutate(var = sub('(.*)\\[.*', '\\1', df_sum$var)) # get rid of numbers in var col
