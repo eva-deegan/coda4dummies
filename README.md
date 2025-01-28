@@ -59,4 +59,7 @@ load(initfilename) # loading the saved_state
 new_saved_state <- lowdevrestart(saved_state = saved_state, vary_by = 10)
 ```
 
+### How to cite
+Emma Reich. (2025). egreich/coda4dummies: first release of coda4dummies (Version v1). Zenodo. https://doi.org/10.5281/zenodo.14757076
+
 
