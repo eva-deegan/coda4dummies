@@ -21,8 +21,14 @@ keepvars <- function(codaobj, to_keep, paramlist, type){
   remove_vars <- get_remove_index(to_keep, paramlist, type)
 
   newinits <- initfind(codaobj, OpenBUGS = FALSE)
+
+  if(remove_vars!=0){
   saved_state <- removevars(initsin = newinits,
-                            variables = remove_vars)
+                            variables = remove_vars) 
+  }
+  if(remove_vars==0){
+    saved_state <- newinits
+  }
 
   initlow <- findlowdev(codaobj) # find the lowest deviance chain
   saved_state[[3]] <- initlow
